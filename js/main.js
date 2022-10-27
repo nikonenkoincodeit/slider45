@@ -21,12 +21,72 @@ class Slider {
     this.pags = pags;
     this.auto = auto;
     this.delay = delay;
+    this._activeIndexSlides = 0;
     this.slides = slides;
     this.selector = document.querySelector(selector);
     this.init();
   }
   init() {
     console.log("start");
+    if (this.navs) {
+      const markup = this.createNavButton();
+      this.addMarkup(markup);
+    }
+
+    if (this.pags) {
+      const markup = this.createPointButton();
+      this.addMarkup(markup);
+    }
+
+    const labelMarkup = this.createPositionImg();
+
+    this.addMarkup(labelMarkup);
+  }
+
+  get activeIndexSlides() {
+    return this._activeIndexSlides;
+  }
+
+  set activeIndexSlides(value) {
+    this._activeIndexSlides = value;
+  }
+
+  addMarkup(markup) {
+    this.selector.insertAdjacentHTML("beforeend", markup);
+  }
+
+  createPositionImg() {
+    return `<div class="numbers js-numbers">
+          <span class="first-num js-first-num">${
+            this.activeIndexSlides + 1
+          }</span>/${this.slides.length}
+      </div>`;
+  }
+
+  createPointButton() {
+    return `<ul class="point-list js-point-list"> 
+      ${this.slides
+        .map((slid, index) => {
+          return `<li class="point-item js-point-item">
+              <button class="point-btn js-point-btn  ${
+                index === 0 ? "btn-active" : ""
+              }" data-index=${index}  ></button>
+            </li>`;
+        })
+        .join("")}
+           
+        </ul>`;
+  }
+
+  createNavButton() {
+    return `<ul class="button-list js-button-list">
+          <li class="button-item-prev js-button-item-prev">
+            <button class="item-btn js-item-btn">&#60;</button>
+          </li>
+          <li class="button-item-next js-button-item-next">
+            <button class="item-btn js-item-btn">&#62;</button>
+          </li>
+      </ul>`;
   }
 }
 
