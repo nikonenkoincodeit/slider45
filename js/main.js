@@ -31,6 +31,7 @@ class Slider {
     if (this.navs) {
       const markup = this.createNavButton();
       this.addMarkup(markup);
+      this.selector.addEventListener("click", this.changeSlide.bind(this));
     }
 
     if (this.pags) {
@@ -41,6 +42,8 @@ class Slider {
     const labelMarkup = this.createPositionImg();
 
     this.addMarkup(labelMarkup);
+
+    this.updateSlides();
   }
 
   get activeIndexSlides() {
@@ -49,10 +52,34 @@ class Slider {
 
   set activeIndexSlides(value) {
     this._activeIndexSlides = value;
+    this.updateSlides();
   }
 
   addMarkup(markup) {
     this.selector.insertAdjacentHTML("beforeend", markup);
+  }
+
+  changeSlide(event) {
+    if (!event.target.classList.contains("js-item-btn")) {
+      return;
+    }
+    const index = this.activeIndexSlides;
+    console.log(this);
+    if (event.target.dataset.btn === "next") {
+      this.activeIndexSlides = index + 1;
+    } else {
+      this.activeIndexSlides = index - 1;
+    }
+
+    console.log(this.activeIndexSlides);
+  }
+
+  updateSlides() {
+    const { img, text } = this.slides[this.activeIndexSlides];
+    const imgRef = this.selector.querySelector(".js-slider-img");
+    this.selector.querySelector(".js-descr").textContent = text;
+    imgRef.src = img;
+    imgRef.alt = text;
   }
 
   createPositionImg() {
@@ -81,10 +108,10 @@ class Slider {
   createNavButton() {
     return `<ul class="button-list js-button-list">
           <li class="button-item-prev js-button-item-prev">
-            <button class="item-btn js-item-btn">&#60;</button>
+            <button class="item-btn js-item-btn" data-btn="prev">&#60;</button>
           </li>
           <li class="button-item-next js-button-item-next">
-            <button class="item-btn js-item-btn">&#62;</button>
+            <button class="item-btn js-item-btn" data-btn="next">&#62;</button>
           </li>
       </ul>`;
   }
