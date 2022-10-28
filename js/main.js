@@ -23,6 +23,8 @@ class Slider {
     this.delay = delay;
     this._activeIndexSlides = 0;
     this.slides = slides;
+    this.points = null;
+    this.label = null;
     this.selector = document.querySelector(selector);
     this.init();
   }
@@ -37,6 +39,8 @@ class Slider {
     if (this.pags) {
       const markup = this.createPointButton();
       this.addMarkup(markup);
+      this.selector.addEventListener("click", this.changeNavPoints.bind(this));
+      this.points = this.selector.querySelectorAll(".js-point-btn");
     }
 
     const labelMarkup = this.createPositionImg();
@@ -44,6 +48,8 @@ class Slider {
     this.addMarkup(labelMarkup);
 
     this.updateSlides();
+
+    this.label = this.selector.querySelector(".js-first-num");
   }
 
   get activeIndexSlides() {
@@ -53,6 +59,21 @@ class Slider {
   set activeIndexSlides(value) {
     this._activeIndexSlides = value;
     this.updateSlides();
+    this.setIndexPoint();
+    this.setLabelIndex();
+  }
+
+  setLabelIndex() {
+    this.label.textContent = this.activeIndexSlides + 1;
+  }
+
+  setIndexPoint() {
+    this.points.forEach((el, index) => {
+      el.classList.remove("btn-active");
+      if (index === this.activeIndexSlides) {
+        el.classList.add("btn-active");
+      }
+    });
   }
 
   addMarkup(markup) {
@@ -114,6 +135,15 @@ class Slider {
             <button class="item-btn js-item-btn" data-btn="next">&#62;</button>
           </li>
       </ul>`;
+  }
+
+  changeNavPoints(event) {
+    if (!event.target.classList.contains("js-point-btn")) {
+      return;
+    }
+    this.activeIndexSlides = +event.target.dataset.index;
+
+    // console.log(event.target.dataset.index);
   }
 }
 
