@@ -41,6 +41,9 @@ class Slider {
       this.addMarkup(markup);
       this.selector.addEventListener("click", this.changeNavPoints.bind(this));
       this.points = this.selector.querySelectorAll(".js-point-btn");
+    } 
+    if (this.auto && this.loop) {
+      this.changeAutoSlides()
     }
 
     const labelMarkup = this.createPositionImg();
@@ -57,10 +60,31 @@ class Slider {
   }
 
   set activeIndexSlides(value) {
-    this._activeIndexSlides = value;
+    this._activeIndexSlides = this.getIndexSlide(value);
     this.updateSlides();
     this.setIndexPoint();
     this.setLabelIndex();
+  }
+  getIndexSlide(indexSlide) {
+    if (this.loop) {
+      if (indexSlide < 0) {
+        return this.slides.length - 1
+      }
+      if (indexSlide > this.slides.length - 1) {
+        return 0
+      }
+      // return indexSlide
+
+    } else {
+      if (indexSlide < 0) {
+        return 0
+      }
+      if (indexSlide > this.slides.length - 1) {
+        return this.slides.length - 1
+      }
+    
+    }
+    return indexSlide
   }
 
   setLabelIndex() {
@@ -101,6 +125,12 @@ class Slider {
     this.selector.querySelector(".js-descr").textContent = text;
     imgRef.src = img;
     imgRef.alt = text;
+  }
+
+  changeAutoSlides() {
+    setInterval( () => {
+      this.activeIndexSlides = this.activeIndexSlides + 1
+    }, this.delay*1000);
   }
 
   createPositionImg() {
