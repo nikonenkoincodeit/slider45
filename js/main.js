@@ -14,7 +14,32 @@
 import { slides } from "./data.js";
 
 class Slider {
-  constructor() {}
+  constructor(slides, selector, { loop, navs, pags, auto, delay = 5 }) {
+    this.slides = slides;
+    this.element = document.querySelector(selector);
+    this.loop = loop;
+    this.navs = navs;
+    this.pags = pags;
+    this.auto = auto;
+    this.delay = delay;
+    this.init();
+  }
+  init() {
+    if (this.navs) {
+      this.addNavs();
+    }
+  }
+  addNavs() {
+    const markup = `<ul class="button-list js-button-list">
+    <li class="button-item-prev js-button-item-prev">
+      <button class="item-btn js-item-btn">&#60;</button>
+    </li>
+    <li class="button-item-next js-button-item-next">
+      <button class="item-btn js-item-btn">&#62;</button>
+    </li>
+  </ul>`;
+    this.element.insertAdjacentHTML("beforeend", markup);
+  }
 }
 
 const slider = new Slider(
