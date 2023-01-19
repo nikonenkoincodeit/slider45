@@ -22,11 +22,15 @@ class Slider {
     this.pags = pags;
     this.auto = auto;
     this.delay = delay;
+    this.activeSlide = 0;
     this.init();
   }
   init() {
     if (this.navs) {
       this.addNavs();
+    }
+    if (this.pags) {
+      this.addPags();
     }
   }
   addNavs() {
@@ -40,6 +44,21 @@ class Slider {
   </ul>`;
     this.element.insertAdjacentHTML("beforeend", markup);
   }
+
+  addPags() {
+    const markup = ` <ul class="point-list js-point-list">
+         ${this.slides
+           .map(
+             (elem, index) => `<li class="point-item js-point-item">
+          <button class="point-btn js-point-btn ${
+            index === this.activeSlide ? "btn-active" : ""
+          }"></button>
+        </li>`
+           )
+           .join("")}
+      </ul>`;
+    this.element.insertAdjacentHTML("beforeend", markup);
+  }
 }
 
 const slider = new Slider(
@@ -48,7 +67,7 @@ const slider = new Slider(
   {
     loop: true,
     navs: true,
-    pags: false,
+    pags: true,
     auto: false,
     delay: 3,
   }
