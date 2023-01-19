@@ -10,3 +10,52 @@ ul {
   margin: 0;
   padding: 0;
 }
+.slider {
+  position: relative;
+}
+.button-list {
+  position: absolute;
+  display: flex;
+  flex-wrap: nowrap;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  justify-content: space-between;
+}
+.item-btn {
+  background: transparent;
+  border: none;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.descr {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 30px;
+}
+.numbers {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+.point-list {
+  position: absolute;
+  display: flex;
+  left: 0;
+  width: 100%;
+  justify-content: center;
+  gap: 15px;
+}
+.point-btn {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background-color: #cccccc;
+  cursor: pointer;
+}
+.btn-active {
+  background-color: grey;
+}
