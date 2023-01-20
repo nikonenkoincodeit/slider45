@@ -22,16 +22,27 @@ class Slider {
     this.pags = pags;
     this.auto = auto;
     this.delay = delay;
-    this.activeSlide = 0;
+    this._activeSlide = 0;
     this.init();
+  }
+  get activeSlide() {
+    return this._activeSlide;
+  }
+  set activeSlide(value) {
+    this._activeSlide = value;
+    this.addImg();
+    this.addDiscr();
   }
   init() {
     if (this.navs) {
       this.addNavs();
+      this.clickArrow();
     }
     if (this.pags) {
       this.addPags();
     }
+    this.addImg();
+    this.addDiscr();
   }
   addNavs() {
     const markup = `<ul class="button-list js-button-list">
@@ -58,6 +69,26 @@ class Slider {
            .join("")}
       </ul>`;
     this.element.insertAdjacentHTML("beforeend", markup);
+  }
+  addImg() {
+    const imgEl = this.element.querySelector(".js-slider-img");
+    imgEl.src = this.slides[this.activeSlide].img;
+    imgEl.alt = this.slides[this.activeSlide].text;
+  }
+  addDiscr() {
+    const discrEl = this.element.querySelector(".js-descr");
+    discrEl.textContent = this.slides[this.activeSlide].text;
+  }
+  clickArrow() {
+    this.element.addEventListener("click", this.onClickBtn.bind(this));
+  }
+  onClickBtn(event) {
+    if (event.target.closest(".button-item-prev")) {
+      this.activeSlide -= 1;
+    }
+    if (event.target.closest(".button-item-next")) {
+      this.activeSlide += 1;
+    }
   }
 }
 
