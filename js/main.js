@@ -29,7 +29,7 @@ class Slider {
     return this._activeSlide;
   }
   set activeSlide(value) {
-    this._activeSlide = value;
+    this._activeSlide = this.getActiveSlides(value);
     this.addImg();
     this.addDiscr();
   }
@@ -90,13 +90,36 @@ class Slider {
       this.activeSlide += 1;
     }
   }
+  getActiveSlides(value) {
+    if (this.loop) {
+      if (value < 0) {
+        return this.slides.length - 1;
+      }
+      if (value > this.slides.length - 1) {
+        return 0;
+      }
+      return value;
+    }
+    // Variant 1
+    return Math.max(0, Math.min(value, this.slides.length - 1));
+
+    // Variant 2
+
+    // if (value < 0) {
+    //   return 0;
+    // }
+    // if (value > this.slides.length - 1) {
+    //   return this.slides.length - 1;
+    // }
+    // return value;
+  }
 }
 
 const slider = new Slider(
   slides, // слайды
   ".js-slider", // id для вставки в html
   {
-    loop: true,
+    loop: false,
     navs: true,
     pags: true,
     auto: false,
