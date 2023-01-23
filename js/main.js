@@ -40,6 +40,7 @@ class Slider {
     }
     if (this.pags) {
       this.addPags();
+      this.clickDots();
     }
     this.addImg();
     this.addDiscr();
@@ -60,7 +61,10 @@ class Slider {
     const markup = ` <ul class="point-list js-point-list">
          ${this.slides
            .map(
-             (elem, index) => `<li class="point-item js-point-item">
+             (
+               elem,
+               index
+             ) => `<li class="point-item js-point-item" data-id="${index}">
           <button class="point-btn js-point-btn ${
             index === this.activeSlide ? "btn-active" : ""
           }"></button>
@@ -81,6 +85,17 @@ class Slider {
   }
   clickArrow() {
     this.element.addEventListener("click", this.onClickBtn.bind(this));
+  }
+  clickDots() {
+    this.element.addEventListener("click", this.onClickBtnDots.bind(this));
+  }
+  onClickBtnDots(event) {
+    const dotLiEl = event.target.closest(".js-point-item");
+    if (!dotLiEl) {
+      return;
+    }
+    const dotId = dotLiEl.dataset.id;
+    this.activeSlide = +dotId;
   }
   onClickBtn(event) {
     if (event.target.closest(".button-item-prev")) {
