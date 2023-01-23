@@ -22,6 +22,7 @@ class Slider {
     this.pags = pags;
     this.auto = auto;
     this.delay = delay;
+    this.intervalId = 0;
     this._activeSlide = 0;
     this.init();
   }
@@ -34,6 +35,7 @@ class Slider {
     this.addDiscr();
     this.toggleActiveClass();
     this.infoNumber();
+    this.autoPlay();
   }
   init() {
     if (this.navs) {
@@ -43,6 +45,9 @@ class Slider {
     if (this.pags) {
       this.addPags();
       this.clickDots();
+    }
+    if (this.auto && this.loop) {
+      this.autoPlay();
     }
     this.addImg();
     this.addDiscr();
@@ -143,6 +148,12 @@ class Slider {
     // }
     // return value;
   }
+  autoPlay() {
+    clearInterval(this.intervalId);
+    this.intervalId = setInterval(() => {
+      this.activeSlide += 1;
+    }, this.delay * 1000);
+  }
 }
 
 const slider = new Slider(
@@ -152,7 +163,7 @@ const slider = new Slider(
     loop: true,
     navs: true,
     pags: true,
-    auto: false,
+    auto: true,
     delay: 3,
   }
 );
