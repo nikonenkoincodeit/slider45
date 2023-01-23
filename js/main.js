@@ -33,6 +33,7 @@ class Slider {
     this.addImg();
     this.addDiscr();
     this.toggleActiveClass();
+    this.infoNumber();
   }
   init() {
     if (this.navs) {
@@ -45,6 +46,7 @@ class Slider {
     }
     this.addImg();
     this.addDiscr();
+    this.infoNumber();
   }
   addNavs() {
     const markup = `<ul class="button-list js-button-list">
@@ -83,6 +85,11 @@ class Slider {
   addDiscr() {
     const discrEl = this.element.querySelector(".js-descr");
     discrEl.textContent = this.slides[this.activeSlide].text;
+  }
+  infoNumber() {
+    this.element.querySelector(".js-first-num").textContent =
+      this.activeSlide + 1;
+    this.element.querySelector(".js-last-num").textContent = this.slides.length;
   }
   clickArrow() {
     this.element.addEventListener("click", this.onClickBtn.bind(this));
@@ -142,7 +149,7 @@ const slider = new Slider(
   slides, // слайды
   ".js-slider", // id для вставки в html
   {
-    loop: false,
+    loop: true,
     navs: true,
     pags: true,
     auto: false,
