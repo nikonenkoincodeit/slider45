@@ -32,6 +32,7 @@ class Slider {
     this._activeSlide = this.getActiveSlides(value);
     this.addImg();
     this.addDiscr();
+    this.toggleActiveClass();
   }
   init() {
     if (this.navs) {
@@ -97,6 +98,13 @@ class Slider {
     const dotId = dotLiEl.dataset.id;
     this.activeSlide = +dotId;
   }
+  toggleActiveClass() {
+    this.element.querySelector(".btn-active").classList.remove("btn-active");
+    this.element
+      .querySelectorAll(".js-point-btn")
+      [this.activeSlide].classList.add("btn-active");
+  }
+
   onClickBtn(event) {
     if (event.target.closest(".button-item-prev")) {
       this.activeSlide -= 1;
